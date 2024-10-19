@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Feliz Cumpleaños, Amor!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #ffecf1;
+            font-family: 'Dancing Script', cursive;
+            color: #ff0066;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            margin: 20px;
+            border: 2px solid #ff66b2;
+            padding: 15px;
+            border-radius: 15px;
+            background-color: #fff5f8;
+            box-shadow: 0 0 10px rgba(255, 0, 102, 0.5);
+        }
+        video {
+            width: 80%;
+            border-radius: 15px;
+        }
+        button {
+            background-color: #ff66b2;
+            border: none;
+            padding: 10px 20px;
+            color: white;
+            font-size: 20px;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #ff3385;
+        }
+        h1 {
+            font-size: 50px;
+        }
+    </style>
+</head>
+<body>
+    <h1>¡Feliz Cumpleaños, Mi Amor!</h1>
+    
+    <div class="container">
+        <video id="video1" controls>
+            <source src="videos/video1.mp4" type="video/mp4">
+            Tu navegador no soporta video HTML5.
+        </video>
+    </div>
+    
+    <div class="container">
+        <video id="video2" controls>
+            <source src="videos/video2.mp4" type="video/mp4">
+            Tu navegador no soporta video HTML5.
+        </video>
+    </div>
+
+    <button onclick="playAudio()">Reproducir Mi Voz</button>
+
+    <audio id="audioMessage">
+        <source src="audio/mensaje1.mp3" type="audio/mp3">
+        Tu navegador no soporta el elemento de audio.
+    </audio>
+
+    <script>
+        function playAudio() {
+            const audio = document.getElementById('audioMessage');
+            audio.play();
+        }
+    </script>
+</body>
+</html>
