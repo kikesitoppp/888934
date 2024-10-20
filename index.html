@@ -115,14 +115,14 @@
         }
 
         // Cambiar cuadrículas cada 30 segundos
-        setInterval(switchGrids, 30000);
+        setInterval(switchGrids, 10000);
 
         // Iniciar reproducción de los videos del primer grid al cargar
         playVideos(videoElements1);
 
         // Reproducción automática de la música de fondo
         const backgroundMusic = document.getElementById('backgroundMusic');
-        backgroundMusic.volume = 0.5;  // Puedes ajustar el volumen si lo deseas
+        backgroundMusic.volume = 50;  // Puedes ajustar el volumen si lo deseas
 
         // Reproducción del mensaje de audio personalizado
         function playAudio() {
