@@ -88,7 +88,7 @@
             // Mostrar cuenta regresiva en formato deseado
             countdownElement.innerHTML = `Faltan ${days} días, ${hours} horas, ${minutes} minutos y ${seconds} segundos para poder ver el contenido de esta página`;
 
-            // Abrir galería cuando llegue a cero
+            // Condición para abrir la galería solo el 13 de noviembre
             if (distance < 0) {
                 clearInterval(countdownTimer);
                 countdownElement.style.display = 'none'; // Ocultar el temporizador
@@ -98,7 +98,7 @@
             }
         }, 1000);
 
-        // Alternar cuadrículas cada 30 segundos
+        // Alternar cuadrículas cada 30 segundos (solo después del 13 de noviembre)
         function switchGrids() {
             if (currentGrid === 1) {
                 grid1.style.display = 'none';
@@ -121,8 +121,11 @@
             });
         }
 
-        // Cambiar cuadrículas cada 30 segundos
-        setInterval(switchGrids, 30000);
+        // Configuración de intervalo de cambio de cuadrículas, pero solo activa después del 13 de noviembre
+        let switchGridsInterval;
+        if (new Date().getTime() >= targetDate) {
+            switchGridsInterval = setInterval(switchGrids, 30000);
+        }
 
         // Reproducción automática de la música de fondo
         const backgroundMusic = document.getElementById('backgroundMusic');
