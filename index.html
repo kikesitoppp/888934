@@ -21,25 +21,21 @@
         .display-item {
             position: relative;
             width: 80%; /* Ajusta el tamaño del marco */
-            max-width: 400px; /* Máximo tamaño para dispositivos grandes */
+            max-width: 800px; /* Máximo tamaño para dispositivos grandes */
             margin: auto; /* Centra el contenido */
-            border: 2px solid #ff69b4; /* Marco alrededor del contenido */
-            border-radius: 10px;
-            overflow: hidden; /* Asegura que no haya desbordamiento */
         }
         .display-item img, .display-item video {
             width: 100%; /* Ancho completo dentro del contenedor */
             height: auto; /* Mantiene la proporción */
             display: block;
+            border-radius: 10px; /* Esquinas redondeadas */
         }
         .caption {
-            font-size: 28px; /* Tamaño de la frase */
+            font-size: 24px; /* Tamaño de la frase */
             color: #000;
-            margin: 10px 0;
             position: absolute; /* Posiciona la frase sobre la imagen/video */
             top: 10px; /* Distancia desde la parte superior */
-            left: 50%; /* Centra horizontalmente */
-            transform: translateX(-50%); /* Corrige el centrado */
+            left: 10px; /* Distancia desde el lado izquierdo */
             background-color: rgba(255, 255, 255, 0.7); /* Fondo semi-transparente para mejor visibilidad */
             padding: 5px; /* Espaciado interno */
             border-radius: 5px; /* Esquinas redondeadas */
