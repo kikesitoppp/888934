@@ -11,14 +11,18 @@
             font-family: 'Dancing Script', cursive;
             color: #ff0066;
             text-align: center;
-        }
-        h1 {
-            font-size: 50px;
-            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
         }
         .countdown {
-            font-size: 24px;
-            margin-top: 20px;
+            font-size: 36px;
+            color: #ff0066;
+        }
+        .hidden {
+            display: none;
         }
         .grid-container {
             display: grid;
@@ -33,27 +37,12 @@
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
         }
-        button {
-            background-color: #ff66b2;
-            border: none;
-            padding: 10px 20px;
-            color: white;
-            font-size: 20px;
-            border-radius: 10px;
-            cursor: pointer;
-            margin: 20px 0;
-        }
-        button:hover {
-            background-color: #ff3385;
-        }
         audio {
             display: none;
         }
     </style>
 </head>
 <body>
-
-    <h1>Mis Videos</h1>
 
     <!-- Contador de tiempo hasta el 13 de noviembre -->
     <div id="countdown" class="countdown"></div>
@@ -65,7 +54,7 @@
     </audio>
 
     <!-- Contenedor de los videos en cuadrícula -->
-    <div id="grid1" class="grid-container" style="display:none;">
+    <div id="grid1" class="grid-container hidden">
         <video src="videos/video1.mp4" muted></video>
         <video src="videos/video2.mp4" muted></video>
         <video src="videos/video3.mp4" muted></video>
@@ -73,7 +62,7 @@
         <video src="videos/video5.mp4" muted></video>
     </div>
 
-    <div id="grid2" class="grid-container" style="display:none;">
+    <div id="grid2" class="grid-container hidden">
         <video src="videos/video6.mp4" muted></video>
         <video src="videos/video7.mp4" muted></video>
         <video src="videos/video8.mp4" muted></video>
@@ -81,8 +70,8 @@
         <video src="videos/video10.mp4" muted></video>
     </div>
 
-    <!-- Botón para reproducir mensaje personalizado -->
-    <button onclick="playAudio()">Reproducir Mi Mensaje</button>
+    <!-- Botón para reproducir mensaje personalizado (oculto hasta que se active la galería) -->
+    <button id="playMessageButton" onclick="playAudio()" class="hidden">Reproducir Mi Mensaje</button>
 
     <!-- Audio del mensaje personalizado -->
     <audio id="audioMessage">
@@ -94,6 +83,7 @@
         const countdownElement = document.getElementById('countdown');
         const grid1 = document.getElementById('grid1');
         const grid2 = document.getElementById('grid2');
+        const playMessageButton = document.getElementById('playMessageButton');
         const videoElements1 = grid1.querySelectorAll('video');
         const videoElements2 = grid2.querySelectorAll('video');
         let currentGrid = 1;
@@ -112,14 +102,15 @@
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-            // Mostrar cuenta regresiva
-            countdownElement.innerHTML = `Faltan ${days}d ${hours}h ${minutes}m ${seconds}s para abrir la galería`;
+            // Mostrar cuenta regresiva en formato deseado
+            countdownElement.innerHTML = `Faltan ${days} días, ${hours} horas, ${minutes} minutos y ${seconds} segundos para poder ver el contenido de esta página`;
 
             // Abrir galería cuando llegue a cero
             if (distance < 0) {
                 clearInterval(countdownTimer);
-                countdownElement.style.display = 'none';
-                grid1.style.display = 'grid';
+                countdownElement.style.display = 'none'; // Ocultar el temporizador
+                grid1.classList.remove('hidden');       // Mostrar primera cuadrícula
+                playMessageButton.classList.remove('hidden'); // Mostrar botón de mensaje
                 playVideos(videoElements1);
             }
         }, 1000);
@@ -152,7 +143,7 @@
 
         // Reproducción automática de la música de fondo
         const backgroundMusic = document.getElementById('backgroundMusic');
-        backgroundMusic.volume = 1.0;  // Puedes ajustar el volumen si lo deseas
+        backgroundMusic.volume = 1.0;
 
         // Reproducción del mensaje de audio personalizado
         function playAudio() {
