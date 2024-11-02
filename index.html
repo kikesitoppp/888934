@@ -20,13 +20,12 @@
         .hidden { display: none; }
         .display-item {
             position: relative;
-            width: 30%;
-            max-width: 400px; /* Máximo tamaño para dispositivos grandes */
         }
         .display-item img, .display-item video {
-            width: 100%;
+            width: 30%; /* Reducido a 30% de la pantalla */
             border-radius: 10px;
             display: block;
+            margin: 0 auto;
         }
         .caption {
             font-size: 20px;
@@ -102,10 +101,6 @@
         let currentIndex = 0;
 
         function showContent() {
-            // Ocultar ambos elementos antes de mostrar el siguiente
-            displayImage.classList.add('hidden');
-            displayVideo.classList.add('hidden');
-
             if (currentIndex >= content.length) {
                 displayContainer.classList.add('hidden');
                 playMessageButton.classList.remove('hidden');
@@ -118,13 +113,15 @@
             if (item.type === 'image') {
                 displayImage.src = item.src;
                 displayImage.classList.remove('hidden');
+                displayVideo.classList.add('hidden');
                 setTimeout(() => {
                     currentIndex++;
                     showContent();
-                }, 15000); // 15 segundos para las fotos
+                }, 15000);
             } else {
                 displayVideo.src = item.src;
                 displayVideo.classList.remove('hidden');
+                displayImage.classList.add('hidden');
                 displayVideo.play();
                 displayVideo.onended = () => {
                     currentIndex++;
