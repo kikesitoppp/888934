@@ -107,21 +107,23 @@
                 return;
             }
 
+            // Ocultar ambos elementos antes de mostrar el siguiente
+            displayImage.classList.add('hidden');
+            displayVideo.classList.add('hidden');
+
             const item = content[currentIndex];
             caption.textContent = item.caption;
 
             if (item.type === 'image') {
                 displayImage.src = item.src;
                 displayImage.classList.remove('hidden');
-                displayVideo.classList.add('hidden');
                 setTimeout(() => {
                     currentIndex++;
                     showContent();
-                }, 15000);
+                }, 15000); // 15 segundos para las fotos
             } else {
                 displayVideo.src = item.src;
                 displayVideo.classList.remove('hidden');
-                displayImage.classList.add('hidden');
                 displayVideo.play();
                 displayVideo.onended = () => {
                     currentIndex++;
