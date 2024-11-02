@@ -21,21 +21,18 @@
             font-size: 24px;
             position: relative;
             width: 100%;
+            max-width: 60%; /* Ajusta el tamaño máximo del contenedor */
         }
         .display-item img, .display-item video {
-            max-width: 60%; /* Ajusta el tamaño de las imágenes y videos */
+            width: 100%; /* Las imágenes y videos ocupan el 100% del contenedor */
             border-radius: 10px;
             display: block;
             margin: 0 auto;
         }
-        .display-item p {
+        .caption {
             font-size: 24px;
-            position: absolute;
-            top: -30px; /* Ajusta la posición de la frase */
-            width: 100%;
-            text-align: center;
             color: #000;
-            margin-top: 10px; /* Espacio entre la frase y el contenedor */
+            margin-bottom: 10px;
         }
         .start-button, .play-message-button {
             padding: 10px 20px;
@@ -55,7 +52,7 @@
 
     <!-- Contenedor de cada imagen/video y su frase -->
     <div id="displayContainer" class="display-item hidden">
-        <p id="caption"></p>
+        <p id="caption" class="caption"></p>
         <img id="displayImage" src="" class="hidden" alt="Imagen de la galería">
         <video id="displayVideo" muted class="hidden"></video>
     </div>
