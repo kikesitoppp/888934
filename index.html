@@ -15,15 +15,14 @@
             justify-content: center;
             height: 100vh;
             margin: 0;
+            flex-direction: column;
         }
         .hidden { display: none; }
         .display-item {
             position: relative;
-            width: 60%;
-            max-width: 40%; /* Tamaño ajustado a un 40% del ancho de la pantalla */
         }
         .display-item img, .display-item video {
-            width: 60%; /* Las imágenes y videos ocupan el 100% del contenedor ajustado */
+            width: 30%; /* Reducido a 30% de la pantalla */
             border-radius: 10px;
             display: block;
             margin: 0 auto;
@@ -31,7 +30,7 @@
         .caption {
             font-size: 20px;
             color: #000;
-            margin-bottom: 10px;
+            margin: 10px 0;
         }
         .start-button, .play-message-button {
             padding: 10px 20px;
@@ -66,7 +65,6 @@
     </audio>
 
     <script>
-        // Botón de inicio y contenedor de imágenes/videos
         const startButton = document.getElementById('startButton');
         const displayContainer = document.getElementById('displayContainer');
         const playMessageButton = document.getElementById('playMessageButton');
@@ -74,7 +72,6 @@
         const displayVideo = document.getElementById('displayVideo');
         const caption = document.getElementById('caption');
 
-        // Lista de fotos, videos y frases
         const content = [
             { type: 'image', src: 'fotos/foto1.jpeg', caption: 'Frase 1' },
             { type: 'image', src: 'fotos/foto2.jpeg', caption: 'Frase 2' },
@@ -103,10 +100,8 @@
 
         let currentIndex = 0;
 
-        // Función para mostrar el contenido en el orden establecido
         function showContent() {
             if (currentIndex >= content.length) {
-                // Al finalizar, mostrar botón de mensaje
                 displayContainer.classList.add('hidden');
                 playMessageButton.classList.remove('hidden');
                 return;
@@ -122,7 +117,7 @@
                 setTimeout(() => {
                     currentIndex++;
                     showContent();
-                }, 15000); // 15 segundos para las fotos
+                }, 15000);
             } else {
                 displayVideo.src = item.src;
                 displayVideo.classList.remove('hidden');
@@ -135,14 +130,12 @@
             }
         }
 
-        // Iniciar secuencia al hacer clic en el botón de inicio
         startButton.onclick = () => {
             startButton.classList.add('hidden');
             displayContainer.classList.remove('hidden');
             showContent();
         };
 
-        // Reproducción del mensaje de audio personalizado
         function playAudio() {
             const audioMessage = document.getElementById('audioMessage');
             audioMessage.play();
