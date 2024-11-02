@@ -4,12 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Galería de Videos</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
     <style>
         body {
             background-color: #f0f8ff;
-            font-family: 'Dancing Script', cursive;
-            color: #ff0066;
+            font-family: Arial, sans-serif;
+            color: #000000;
             text-align: center;
             display: flex;
             align-items: center;
@@ -19,25 +18,9 @@
         }
         .countdown {
             font-size: 36px;
-            color: #ff0066;
+            color: #000000;
         }
         .hidden {
-            display: none;
-        }
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 10px;
-            padding: 20px;
-            max-width: 80%;
-            margin: 0 auto;
-        }
-        video {
-            width: 100%;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        }
-        audio {
             display: none;
         }
     </style>
@@ -47,13 +30,13 @@
     <!-- Contador de tiempo hasta el 13 de noviembre -->
     <div id="countdown" class="countdown"></div>
 
-    <!-- Canción de fondo -->
-    <audio id="backgroundMusic" loop autoplay>
+    <!-- Canción de fondo (oculta) -->
+    <audio id="backgroundMusic" loop autoplay class="hidden">
         <source src="audio/audio_cancion.mp3" type="audio/mp3">
         Tu navegador no soporta el audio HTML5.
     </audio>
 
-    <!-- Contenedor de los videos en cuadrícula -->
+    <!-- Contenedor de los videos en cuadrícula (oculto) -->
     <div id="grid1" class="grid-container hidden">
         <video src="videos/video1.mp4" muted></video>
         <video src="videos/video2.mp4" muted></video>
@@ -73,8 +56,8 @@
     <!-- Botón para reproducir mensaje personalizado (oculto hasta que se active la galería) -->
     <button id="playMessageButton" onclick="playAudio()" class="hidden">Reproducir Mi Mensaje</button>
 
-    <!-- Audio del mensaje personalizado -->
-    <audio id="audioMessage">
+    <!-- Audio del mensaje personalizado (oculto) -->
+    <audio id="audioMessage" class="hidden">
         <source src="audio/mensaje1.mp3" type="audio/mp3">
         Tu navegador no soporta el audio HTML5.
     </audio>
