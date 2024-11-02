@@ -20,13 +20,16 @@
         .hidden { display: none; }
         .display-item {
             position: relative;
-            width: 70%; /* Aumenta un poco el tamaño, puedes ajustar */
+            width: 80%; /* Ajusta el tamaño del marco */
             max-width: 400px; /* Máximo tamaño para dispositivos grandes */
             margin: auto; /* Centra el contenido */
+            border: 2px solid #ff69b4; /* Marco alrededor del contenido */
+            border-radius: 10px;
+            overflow: hidden; /* Asegura que no haya desbordamiento */
         }
         .display-item img, .display-item video {
             width: 100%; /* Ancho completo dentro del contenedor */
-            border-radius: 10px;
+            height: auto; /* Mantiene la proporción */
             display: block;
         }
         .caption {
@@ -37,6 +40,9 @@
             top: 10px; /* Distancia desde la parte superior */
             left: 50%; /* Centra horizontalmente */
             transform: translateX(-50%); /* Corrige el centrado */
+            background-color: rgba(255, 255, 255, 0.7); /* Fondo semi-transparente para mejor visibilidad */
+            padding: 5px; /* Espaciado interno */
+            border-radius: 5px; /* Esquinas redondeadas */
         }
         .start-button, .play-message-button {
             padding: 10px 20px;
@@ -111,6 +117,7 @@
             // Ocultar ambos elementos antes de mostrar el siguiente
             displayImage.classList.add('hidden');
             displayVideo.classList.add('hidden');
+            caption.textContent = ''; // Limpiar el texto de la frase
 
             if (currentIndex >= content.length) {
                 displayContainer.classList.add('hidden');
@@ -124,8 +131,9 @@
             // Establecer el elemento que se va a mostrar
             if (item.type === 'image') {
                 displayImage.src = item.src;
-                displayContainer.classList.remove('hidden'); // Asegura que el contenedor esté visible
                 displayImage.classList.remove('hidden');
+                displayVideo.classList.add('hidden'); // Asegura que el video esté oculto
+                displayContainer.classList.remove('hidden'); // Asegura que el contenedor esté visible
 
                 // Cambiar a video después de 8 segundos
                 setTimeout(() => {
@@ -134,8 +142,9 @@
                 }, 8000); // 8 segundos para las fotos
             } else {
                 displayVideo.src = item.src;
-                displayContainer.classList.remove('hidden'); // Asegura que el contenedor esté visible
                 displayVideo.classList.remove('hidden');
+                displayImage.classList.add('hidden'); // Asegura que la imagen esté oculta
+                displayContainer.classList.remove('hidden'); // Asegura que el contenedor esté visible
                 displayVideo.play();
 
                 // Cambiar a siguiente después de que el video termine
