@@ -118,15 +118,19 @@
             if (item.type === 'image') {
                 displayImage.src = item.src;
                 displayImage.classList.remove('hidden');
+                // Cambiar a video después de 8 segundos
                 setTimeout(() => {
+                    displayImage.classList.add('hidden'); // Oculta la imagen antes de cambiar a video
                     currentIndex++;
                     showContent();
-                }, 7000); // 15 segundos para las fotos
+                }, 8000); // 8 segundos para las fotos
             } else {
                 displayVideo.src = item.src;
                 displayVideo.classList.remove('hidden');
                 displayVideo.play();
+                // Cambiar a siguiente después de que el video termine
                 displayVideo.onended = () => {
+                    displayVideo.classList.add('hidden'); // Oculta el video antes de cambiar a la siguiente imagen
                     currentIndex++;
                     showContent();
                 };
