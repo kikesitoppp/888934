@@ -16,6 +16,10 @@
             font-size: 50px;
             margin-top: 20px;
         }
+        .countdown {
+            font-size: 24px;
+            margin-top: 20px;
+        }
         .grid-container {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
@@ -51,6 +55,9 @@
 
     <h1>Mis Videos</h1>
 
+    <!-- Contador de tiempo hasta el 13 de noviembre -->
+    <div id="countdown" class="countdown"></div>
+
     <!-- Canción de fondo -->
     <audio id="backgroundMusic" loop autoplay>
         <source src="audio/audio_cancion.mp3" type="audio/mp3">
@@ -58,7 +65,7 @@
     </audio>
 
     <!-- Contenedor de los videos en cuadrícula -->
-    <div id="grid1" class="grid-container">
+    <div id="grid1" class="grid-container" style="display:none;">
         <video src="videos/video1.mp4" muted></video>
         <video src="videos/video2.mp4" muted></video>
         <video src="videos/video3.mp4" muted></video>
@@ -84,14 +91,40 @@
     </audio>
 
     <script>
+        const countdownElement = document.getElementById('countdown');
         const grid1 = document.getElementById('grid1');
         const grid2 = document.getElementById('grid2');
         const videoElements1 = grid1.querySelectorAll('video');
         const videoElements2 = grid2.querySelectorAll('video');
-
         let currentGrid = 1;
 
-        // Función para alternar las cuadrículas de videos
+        // Fecha objetivo
+        const targetDate = new Date('2024-11-13T00:00:00').getTime();
+
+        // Temporizador de cuenta regresiva
+        const countdownTimer = setInterval(() => {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            // Calculo de tiempo restante
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Mostrar cuenta regresiva
+            countdownElement.innerHTML = `Faltan ${days}d ${hours}h ${minutes}m ${seconds}s para abrir la galería`;
+
+            // Abrir galería cuando llegue a cero
+            if (distance < 0) {
+                clearInterval(countdownTimer);
+                countdownElement.style.display = 'none';
+                grid1.style.display = 'grid';
+                playVideos(videoElements1);
+            }
+        }, 1000);
+
+        // Alternar cuadrículas cada 30 segundos
         function switchGrids() {
             if (currentGrid === 1) {
                 grid1.style.display = 'none';
@@ -108,17 +141,14 @@
 
         // Reproduce todos los videos de una cuadrícula
         function playVideos(videos) {
-            videos.forEach((video, index) => {
+            videos.forEach(video => {
                 video.currentTime = 0;
                 video.play();
             });
         }
 
         // Cambiar cuadrículas cada 30 segundos
-        setInterval(switchGrids, 10000);
-
-        // Iniciar reproducción de los videos del primer grid al cargar
-        playVideos(videoElements1);
+        setInterval(switchGrids, 30000);
 
         // Reproducción automática de la música de fondo
         const backgroundMusic = document.getElementById('backgroundMusic');
@@ -133,4 +163,3 @@
 
 </body>
 </html>
-
