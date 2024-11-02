@@ -20,17 +20,23 @@
         .hidden { display: none; }
         .display-item {
             position: relative;
+            width: 70%; /* Aumenta un poco el tamaño, puedes ajustar */
+            max-width: 400px; /* Máximo tamaño para dispositivos grandes */
+            margin: auto; /* Centra el contenido */
         }
         .display-item img, .display-item video {
-            width: 30%; /* Reducido a 30% de la pantalla */
+            width: 100%; /* Ancho completo dentro del contenedor */
             border-radius: 10px;
             display: block;
-            margin: 0 auto;
         }
         .caption {
-            font-size: 20px;
+            font-size: 28px; /* Tamaño de la frase */
             color: #000;
             margin: 10px 0;
+            position: absolute; /* Posiciona la frase sobre la imagen/video */
+            top: 10px; /* Distancia desde la parte superior */
+            left: 50%; /* Centra horizontalmente */
+            transform: translateX(-50%); /* Corrige el centrado */
         }
         .start-button, .play-message-button {
             padding: 10px 20px;
@@ -40,6 +46,7 @@
             border: none;
             border-radius: 10px;
             cursor: pointer;
+            margin: 10px; /* Espaciado entre botones */
         }
     </style>
 </head>
@@ -101,6 +108,10 @@
         let currentIndex = 0;
 
         function showContent() {
+            // Ocultar ambos elementos antes de mostrar el siguiente
+            displayImage.classList.add('hidden');
+            displayVideo.classList.add('hidden');
+
             if (currentIndex >= content.length) {
                 displayContainer.classList.add('hidden');
                 playMessageButton.classList.remove('hidden');
@@ -110,22 +121,27 @@
             const item = content[currentIndex];
             caption.textContent = item.caption;
 
+            // Establecer el elemento que se va a mostrar
             if (item.type === 'image') {
                 displayImage.src = item.src;
+                displayContainer.classList.remove('hidden'); // Asegura que el contenedor esté visible
                 displayImage.classList.remove('hidden');
-                displayVideo.classList.add('hidden');
+
+                // Cambiar a video después de 8 segundos
                 setTimeout(() => {
                     currentIndex++;
-                    showContent();
-                }, 15000);
+                    showContent(); // Llama para mostrar el siguiente contenido
+                }, 8000); // 8 segundos para las fotos
             } else {
                 displayVideo.src = item.src;
+                displayContainer.classList.remove('hidden'); // Asegura que el contenedor esté visible
                 displayVideo.classList.remove('hidden');
-                displayImage.classList.add('hidden');
                 displayVideo.play();
+
+                // Cambiar a siguiente después de que el video termine
                 displayVideo.onended = () => {
                     currentIndex++;
-                    showContent();
+                    showContent(); // Llama para mostrar el siguiente contenido
                 };
             }
         }
