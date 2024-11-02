@@ -16,120 +16,132 @@
             height: 100vh;
             margin: 0;
         }
-        .countdown {
-            font-size: 36px;
-            color: #000000;
+        .hidden { display: none; }
+        .display-item {
+            font-size: 24px;
+            position: relative;
         }
-        .hidden {
-            display: none;
+        .display-item img, .display-item video {
+            max-width: 80%;
+            border-radius: 10px;
+        }
+        .display-item p {
+            font-size: 24px;
+            position: absolute;
+            top: -40px;
+            width: 100%;
+            text-align: center;
+            color: #000;
+        }
+        .start-button, .play-message-button {
+            padding: 10px 20px;
+            font-size: 24px;
+            background-color: #ff69b4;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
 
-    <!-- Contador de tiempo hasta el 13 de noviembre -->
-    <div id="countdown" class="countdown"></div>
+    <!-- Botón de inicio para iniciar las transiciones -->
+    <button id="startButton" class="start-button">Iniciar</button>
 
-    <!-- Canción de fondo (oculta) -->
-    <audio id="backgroundMusic" loop autoplay class="hidden">
-        <source src="audio/audio_cancion.mp3" type="audio/mp3">
-        Tu navegador no soporta el audio HTML5.
-    </audio>
-
-    <!-- Contenedor de los videos en cuadrícula (oculto) -->
-    <div id="grid1" class="grid-container hidden">
-        <video src="videos/video1.mp4" muted></video>
-        <video src="videos/video2.mp4" muted></video>
-        <video src="videos/video3.mp4" muted></video>
-        <video src="videos/video4.mp4" muted></video>
-        <video src="videos/video5.mp4" muted></video>
+    <!-- Contenedor de cada imagen/video y su frase -->
+    <div id="displayContainer" class="display-item hidden">
+        <p id="caption"></p>
+        <img id="displayImage" src="" class="hidden" alt="Imagen de la galería">
+        <video id="displayVideo" muted class="hidden"></video>
     </div>
 
-    <div id="grid2" class="grid-container hidden">
-        <video src="videos/video6.mp4" muted></video>
-        <video src="videos/video7.mp4" muted></video>
-        <video src="videos/video8.mp4" muted></video>
-        <video src="videos/video9.mp4" muted></video>
-        <video src="videos/video10.mp4" muted></video>
-    </div>
+    <!-- Botón para reproducir mensaje personalizado -->
+    <button id="playMessageButton" onclick="playAudio()" class="play-message-button hidden">Reproducir Mi Mensaje</button>
 
-    <!-- Botón para reproducir mensaje personalizado (oculto hasta que se active la galería) -->
-    <button id="playMessageButton" onclick="playAudio()" class="hidden">Reproducir Mi Mensaje</button>
-
-    <!-- Audio del mensaje personalizado (oculto) -->
+    <!-- Audio del mensaje personalizado -->
     <audio id="audioMessage" class="hidden">
         <source src="audio/mensaje1.mp3" type="audio/mp3">
         Tu navegador no soporta el audio HTML5.
     </audio>
 
     <script>
-        const countdownElement = document.getElementById('countdown');
-        const grid1 = document.getElementById('grid1');
-        const grid2 = document.getElementById('grid2');
+        // Botón de inicio y contenedor de imágenes/videos
+        const startButton = document.getElementById('startButton');
+        const displayContainer = document.getElementById('displayContainer');
         const playMessageButton = document.getElementById('playMessageButton');
-        const videoElements1 = grid1.querySelectorAll('video');
-        const videoElements2 = grid2.querySelectorAll('video');
-        let currentGrid = 1;
+        const displayImage = document.getElementById('displayImage');
+        const displayVideo = document.getElementById('displayVideo');
+        const caption = document.getElementById('caption');
 
-        // Fecha objetivo
-        const targetDate = new Date('2024-11-13T00:00:00').getTime();
+        // Lista de fotos, videos y frases
+        const content = [
+            { type: 'image', src: 'fotos/foto1.jpg', caption: 'Frase 1' },
+            { type: 'image', src: 'fotos/foto2.jpg', caption: 'Frase 2' },
+            { type: 'image', src: 'fotos/foto3.jpg', caption: 'Frase 3' },
+            { type: 'video', src: 'videos/video1.mp4', caption: 'Frase 4' },
+            { type: 'video', src: 'videos/video2.mp4', caption: 'Frase 5' },
+            { type: 'image', src: 'fotos/foto4.jpg', caption: 'Frase 6' },
+            { type: 'image', src: 'fotos/foto5.jpg', caption: 'Frase 7' },
+            { type: 'image', src: 'fotos/foto6.jpg', caption: 'Frase 8' },
+            { type: 'video', src: 'videos/video3.mp4', caption: 'Frase 9' },
+            { type: 'video', src: 'videos/video4.mp4', caption: 'Frase 10' },
+            { type: 'image', src: 'fotos/foto7.jpg', caption: 'Frase 11' },
+            { type: 'image', src: 'fotos/foto8.jpg', caption: 'Frase 12' },
+            { type: 'image', src: 'fotos/foto9.jpg', caption: 'Frase 13' },
+            { type: 'image', src: 'fotos/foto10.jpg', caption: 'Frase 14' },
+            { type: 'video', src: 'videos/video5.mp4', caption: 'Frase 15' },
+            { type: 'video', src: 'videos/video6.mp4', caption: 'Frase 16' },
+            { type: 'video', src: 'videos/video7.mp4', caption: 'Frase 17' },
+            { type: 'image', src: 'fotos/foto11.jpg', caption: 'Frase 18' },
+            { type: 'image', src: 'fotos/foto12.jpg', caption: 'Frase 19' },
+            { type: 'image', src: 'fotos/foto13.jpg', caption: 'Frase 20' },
+            { type: 'image', src: 'fotos/foto14.jpg', caption: 'Frase 21' },
+            { type: 'image', src: 'fotos/foto15.jpg', caption: 'Frase 22' },
+            { type: 'image', src: 'fotos/foto16.jpg', caption: 'Frase 23' },
+            { type: 'video', src: 'videos/video8.mp4', caption: 'Frase 24' }
+        ];
 
-        // Temporizador de cuenta regresiva
-        const countdownTimer = setInterval(() => {
-            const now = new Date().getTime();
-            const distance = targetDate - now;
+        let currentIndex = 0;
 
-            // Calculo de tiempo restante
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            // Mostrar cuenta regresiva en formato deseado
-            countdownElement.innerHTML = `Faltan ${days} días, ${hours} horas, ${minutes} minutos y ${seconds} segundos para poder ver el contenido de esta página`;
-
-            // Condición para abrir la galería solo el 13 de noviembre
-            if (distance < 0) {
-                clearInterval(countdownTimer);
-                countdownElement.style.display = 'none'; // Ocultar el temporizador
-                grid1.classList.remove('hidden');       // Mostrar primera cuadrícula
-                playMessageButton.classList.remove('hidden'); // Mostrar botón de mensaje
-                playVideos(videoElements1);
+        // Función para mostrar el contenido en el orden establecido
+        function showContent() {
+            if (currentIndex >= content.length) {
+                // Al finalizar, mostrar botón de mensaje
+                displayContainer.classList.add('hidden');
+                playMessageButton.classList.remove('hidden');
+                return;
             }
-        }, 1000);
 
-        // Alternar cuadrículas cada 30 segundos (solo después del 13 de noviembre)
-        function switchGrids() {
-            if (currentGrid === 1) {
-                grid1.style.display = 'none';
-                grid2.style.display = 'grid';
-                currentGrid = 2;
-                playVideos(videoElements2);
+            const item = content[currentIndex];
+            caption.textContent = item.caption;
+
+            if (item.type === 'image') {
+                displayImage.src = item.src;
+                displayImage.classList.remove('hidden');
+                displayVideo.classList.add('hidden');
+                setTimeout(() => {
+                    currentIndex++;
+                    showContent();
+                }, 8000); // 8 segundos para las fotos
             } else {
-                grid2.style.display = 'none';
-                grid1.style.display = 'grid';
-                currentGrid = 1;
-                playVideos(videoElements1);
+                displayVideo.src = item.src;
+                displayVideo.classList.remove('hidden');
+                displayImage.classList.add('hidden');
+                displayVideo.play();
+                displayVideo.onended = () => {
+                    currentIndex++;
+                    showContent();
+                };
             }
         }
 
-        // Reproduce todos los videos de una cuadrícula
-        function playVideos(videos) {
-            videos.forEach(video => {
-                video.currentTime = 0;
-                video.play();
-            });
-        }
-
-        // Configuración de intervalo de cambio de cuadrículas, pero solo activa después del 13 de noviembre
-        let switchGridsInterval;
-        if (new Date().getTime() >= targetDate) {
-            switchGridsInterval = setInterval(switchGrids, 30000);
-        }
-
-        // Reproducción automática de la música de fondo
-        const backgroundMusic = document.getElementById('backgroundMusic');
-        backgroundMusic.volume = 1.0;
+        // Iniciar secuencia al hacer clic en el botón de inicio
+        startButton.onclick = () => {
+            startButton.classList.add('hidden');
+            displayContainer.classList.remove('hidden');
+            showContent();
+        };
 
         // Reproducción del mensaje de audio personalizado
         function playAudio() {
