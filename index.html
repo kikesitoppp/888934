@@ -25,20 +25,23 @@
             margin: auto; /* Centra el contenido */
         }
         .display-item img, .display-item video {
-            width: 100%; /* Ancho completo dentro del contenedor */
+            width: 80%; /* Tamaño reducido de las imágenes */
             height: auto; /* Mantiene la proporción */
             display: block;
             border-radius: 10px; /* Esquinas redondeadas */
+            margin: 0 auto; /* Centra la imagen */
         }
         .caption {
             font-size: 24px; /* Tamaño de la frase */
             color: #000;
-            position: absolute; /* Posiciona la frase sobre la imagen/video */
-            top: 10px; /* Distancia desde la parte superior */
-            left: 10px; /* Distancia desde el lado izquierdo */
+            position: absolute; /* Posiciona la frase fuera de la imagen/video */
+            top: 50%; /* Ajuste de la posición vertical */
+            left: 100%; /* Coloca a la derecha de la imagen */
+            transform: translate(-20%, -50%) rotate(-10deg); /* Diagonal y centrado verticalmente */
             background-color: rgba(255, 255, 255, 0.7); /* Fondo semi-transparente para mejor visibilidad */
             padding: 5px; /* Espaciado interno */
             border-radius: 5px; /* Esquinas redondeadas */
+            white-space: nowrap; /* Evita el salto de línea */
         }
         .start-button, .play-message-button {
             padding: 10px 20px;
