@@ -6,7 +6,7 @@
     <title>pamiamol</title>
     <style>
         body {
-            background-color: #f0f8ff;
+            background-color: #ffb6c1; /* Fondo rosado */
             font-family: Arial, sans-serif;
             color: #000000;
             text-align: center;
@@ -16,73 +16,69 @@
             height: 100vh;
             margin: 0;
             flex-direction: column;
-            overflow: hidden; /* Evita que aparezcan barras de desplazamiento */
+            overflow: hidden;
         }
-        .hidden { display: none; }
         .display-item {
             position: relative;
-            width: 80%; /* Ancho relativo para la responsividad */
-            max-width: 800px; /* Ancho máximo para pantallas grandes */
-            margin: auto; /* Centra el contenido */
+            width: 60%; /* Tamaño más pequeño para la imagen/video */
+            max-width: 500px; /* Ancho máximo para pantallas grandes */
+            margin: auto;
         }
         img, video {
-            width: 100%; /* Ocupa el 100% del ancho del contenedor */
-            height: auto; /* Mantiene la proporción */
-            border-radius: 10px; /* Esquinas redondeadas */
-            margin: 10px 0; /* Espaciado alrededor */
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
         }
         .caption {
-            font-size: 2rem; /* Tamaño grande para la frase */
+            font-size: 1.5rem;
             color: #000;
-            position: absolute; /* Posiciona la frase sobre la imagen/video */
-            top: 10%; /* Ajuste a la parte superior */
-            left: 50%; /* Centro horizontal */
-            transform: translateX(-50%); /* Centrar horizontalmente */
-            background-color: rgba(255, 255, 255, 0.7); /* Fondo semi-transparente para mejor visibilidad */
-            padding: 10px; /* Espaciado interno */
-            border-radius: 5px; /* Esquinas redondeadas */
-            width: 90%; /* Ancho de la frase */
-            text-align: center; /* Centrar texto */
-            z-index: 1; /* Asegura que el texto esté sobre las imágenes */
+            position: absolute;
+            top: 5%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(255, 255, 255, 0.7);
+            padding: 10px;
+            border-radius: 5px;
+            width: 90%;
+            text-align: center;
+            z-index: 1;
         }
-        .start-button, .play-message-button {
+        .heart-button {
+            background-color: #ff69b4;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .left-button { left: -60px; }
+        .right-button { right: -60px; }
+        .play-message-button {
             padding: 10px 20px;
-            font-size: 1.5rem; /* Tamaño de fuente más pequeño para botones */
+            font-size: 1.5rem;
             background-color: #ff69b4;
             color: white;
             border: none;
             border-radius: 10px;
             cursor: pointer;
-            margin: 10px; /* Espaciado entre botones */
-        }
-
-        /* Media queries para mejorar la responsividad en diferentes dispositivos */
-        @media (max-width: 600px) {
-            .caption {
-                font-size: 1.5rem; /* Reducir tamaño de texto en pantallas pequeñas */
-            }
-            .start-button, .play-message-button {
-                font-size: 1.2rem; /* Ajustar tamaño de los botones */
-            }
-        }
-
-        @media (min-width: 601px) and (max-width: 1024px) {
-            .caption {
-                font-size: 1.8rem; /* Ajustar tamaño de texto en tablets */
-            }
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
 
-    <!-- Botón de inicio para iniciar las transiciones -->
-    <button id="startButton" class="start-button">Iniciar</button>
-
     <!-- Contenedor de cada imagen/video y su frase -->
-    <div id="displayContainer" class="display-item hidden">
+    <div id="displayContainer" class="display-item">
         <p id="caption" class="caption"></p>
-        <img id="displayImage" src="" class="hidden" alt="Imagen de la galería">
+        <img id="displayImage" src="" alt="Imagen de la galería" class="hidden">
         <video id="displayVideo" muted class="hidden"></video>
+        <button id="leftButton" class="heart-button left-button">&lt;3</button>
+        <button id="rightButton" class="heart-button right-button">3&gt;</button>
     </div>
 
     <!-- Botón para reproducir mensaje personalizado -->
@@ -95,12 +91,13 @@
     </audio>
 
     <script>
-        const startButton = document.getElementById('startButton');
         const displayContainer = document.getElementById('displayContainer');
         const playMessageButton = document.getElementById('playMessageButton');
         const displayImage = document.getElementById('displayImage');
         const displayVideo = document.getElementById('displayVideo');
         const caption = document.getElementById('caption');
+        const leftButton = document.getElementById('leftButton');
+        const rightButton = document.getElementById('rightButton');
 
         const content = [
             { type: 'image', src: 'fotos/foto1.jpeg', caption: 'Hola mi amor ❤️' },
@@ -131,10 +128,9 @@
         let currentIndex = 0;
 
         function showContent() {
-            // Ocultar ambos elementos antes de mostrar el siguiente
             displayImage.classList.add('hidden');
             displayVideo.classList.add('hidden');
-            caption.textContent = ''; // Limpiar el texto de la frase
+            caption.textContent = '';
 
             if (currentIndex >= content.length) {
                 displayContainer.classList.add('hidden');
@@ -145,44 +141,38 @@
             const item = content[currentIndex];
             caption.textContent = item.caption;
 
-            // Establecer el elemento que se va a mostrar
             if (item.type === 'image') {
                 displayImage.src = item.src;
                 displayImage.classList.remove('hidden');
-                displayVideo.classList.add('hidden'); // Asegura que el video esté oculto
-                displayContainer.classList.remove('hidden'); // Asegura que el contenedor esté visible
-
-                // Cambiar a video después de 8 segundos
-                setTimeout(() => {
-                    currentIndex++;
-                    showContent(); // Llama para mostrar el siguiente contenido
-                }, 8000); // 8 segundos para las fotos
             } else {
                 displayVideo.src = item.src;
                 displayVideo.classList.remove('hidden');
-                displayImage.classList.add('hidden'); // Asegura que la imagen esté oculta
-                displayContainer.classList.remove('hidden'); // Asegura que el contenedor esté visible
-
-                // Cambiar a imagen después de la duración del video
-                displayVideo.onended = () => {
-                    currentIndex++;
-                    showContent(); // Llama para mostrar el siguiente contenido
-                };
+                displayVideo.play();
             }
         }
 
-        // Función para reproducir el audio del mensaje
+        function nextContent() {
+            currentIndex = (currentIndex + 1) % content.length;
+            showContent();
+        }
+
+        function prevContent() {
+            currentIndex = (currentIndex - 1 + content.length) % content.length;
+            showContent();
+        }
+
         function playAudio() {
             const audio = document.getElementById('audioMessage');
             audio.play();
         }
 
-        startButton.addEventListener('click', () => {
-            startButton.classList.add('hidden');
-            displayContainer.classList.remove('hidden');
-            showContent(); // Muestra el contenido al hacer clic en el botón
-        });
+        rightButton.addEventListener('click', nextContent);
+        leftButton.addEventListener('click', prevContent);
+
+        // Iniciar mostrando el primer contenido
+        showContent();
     </script>
 
 </body>
 </html>
+
