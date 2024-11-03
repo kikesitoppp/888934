@@ -20,14 +20,13 @@
         .hidden { display: none; }
         .display-item {
             position: relative;
-            width: 100%; /* Ancho completo para la adaptabilidad */
-            max-width: 800px; /* Máximo tamaño para pantallas grandes */
+            width: 90%; /* Ancho relativo para la responsividad */
+            max-width: 800px; /* Ancho máximo para pantallas grandes */
             margin: auto; /* Centra el contenido */
         }
-        .display-item img, .display-item video {
-            width: 100%; /* Ocupa todo el ancho del contenedor */
+        img, video {
+            width: 100%; /* Ocupa el 100% del ancho del contenedor */
             height: auto; /* Mantiene la proporción */
-            display: block;
             border-radius: 10px; /* Esquinas redondeadas */
             margin: 10px 0; /* Espaciado alrededor */
         }
@@ -35,7 +34,7 @@
             font-size: 2rem; /* Tamaño grande para la frase */
             color: #000;
             position: absolute; /* Posiciona la frase sobre la imagen/video */
-            top: 0; /* Ajuste a la parte superior */
+            top: 10%; /* Ajuste a la parte superior */
             left: 50%; /* Centro horizontal */
             transform: translateX(-50%); /* Centrar horizontalmente */
             background-color: rgba(255, 255, 255, 0.7); /* Fondo semi-transparente para mejor visibilidad */
@@ -54,6 +53,22 @@
             border-radius: 10px;
             cursor: pointer;
             margin: 10px; /* Espaciado entre botones */
+        }
+
+        /* Media queries para mejorar la responsividad en diferentes dispositivos */
+        @media (max-width: 600px) {
+            .caption {
+                font-size: 1.5rem; /* Reducir tamaño de texto en pantallas pequeñas */
+            }
+            .start-button, .play-message-button {
+                font-size: 1.2rem; /* Ajustar tamaño de los botones */
+            }
+        }
+
+        @media (min-width: 601px) and (max-width: 1024px) {
+            .caption {
+                font-size: 1.8rem; /* Ajustar tamaño de texto en tablets */
+            }
         }
     </style>
 </head>
@@ -146,9 +161,8 @@
                 displayVideo.classList.remove('hidden');
                 displayImage.classList.add('hidden'); // Asegura que la imagen esté oculta
                 displayContainer.classList.remove('hidden'); // Asegura que el contenedor esté visible
-                displayVideo.play();
 
-                // Cambiar a siguiente después de que el video termine
+                // Cambiar a imagen después de la duración del video
                 displayVideo.onended = () => {
                     currentIndex++;
                     showContent(); // Llama para mostrar el siguiente contenido
@@ -156,16 +170,17 @@
             }
         }
 
-        startButton.onclick = () => {
+        // Función para reproducir el audio del mensaje
+        function playAudio() {
+            const audio = document.getElementById('audioMessage');
+            audio.play();
+        }
+
+        startButton.addEventListener('click', () => {
             startButton.classList.add('hidden');
             displayContainer.classList.remove('hidden');
-            showContent();
-        };
-
-        function playAudio() {
-            const audioMessage = document.getElementById('audioMessage');
-            audioMessage.play();
-        }
+            showContent(); // Muestra el contenido al hacer clic en el botón
+        });
     </script>
 
 </body>
