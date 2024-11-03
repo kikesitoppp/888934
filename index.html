@@ -20,24 +20,28 @@
         }
         .display-item {
             position: relative;
-            width: 60%; /* Tamaño más pequeño para la imagen/video */
-            max-width: 500px; /* Ancho máximo para pantallas grandes */
+            width: 40%; /* Tamaño más pequeño para la imagen/video */
+            max-width: 300px; /* Ancho máximo para pantallas grandes */
             margin: auto;
         }
         img, video {
             width: 100%;
             height: auto;
             border-radius: 10px;
+            display: none; /* Ocultar por defecto */
+        }
+        .active {
+            display: block; /* Mostrar solo el elemento activo */
         }
         .caption {
-            font-size: 1.5rem;
+            font-size: 1rem;
             color: #000;
             position: absolute;
             top: 5%;
             left: 50%;
             transform: translateX(-50%);
             background-color: rgba(255, 255, 255, 0.7);
-            padding: 10px;
+            padding: 5px;
             border-radius: 5px;
             width: 90%;
             text-align: center;
@@ -48,19 +52,19 @@
             color: white;
             border: none;
             border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            font-size: 1.5rem;
+            width: 40px;
+            height: 40px;
+            font-size: 1.2rem;
             cursor: pointer;
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
         }
-        .left-button { left: -60px; }
-        .right-button { right: -60px; }
+        .left-button { left: -50px; }
+        .right-button { right: -50px; }
         .play-message-button {
             padding: 10px 20px;
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             background-color: #ff69b4;
             color: white;
             border: none;
@@ -75,8 +79,8 @@
     <!-- Contenedor de cada imagen/video y su frase -->
     <div id="displayContainer" class="display-item">
         <p id="caption" class="caption"></p>
-        <img id="displayImage" src="" alt="Imagen de la galería" class="hidden">
-        <video id="displayVideo" muted class="hidden"></video>
+        <img id="displayImage" src="" alt="Imagen de la galería" class="active">
+        <video id="displayVideo" muted></video>
         <button id="leftButton" class="heart-button left-button">&lt;3</button>
         <button id="rightButton" class="heart-button right-button">3&gt;</button>
     </div>
@@ -128,8 +132,8 @@
         let currentIndex = 0;
 
         function showContent() {
-            displayImage.classList.add('hidden');
-            displayVideo.classList.add('hidden');
+            displayImage.classList.remove('active');
+            displayVideo.classList.remove('active');
             caption.textContent = '';
 
             if (currentIndex >= content.length) {
@@ -143,10 +147,10 @@
 
             if (item.type === 'image') {
                 displayImage.src = item.src;
-                displayImage.classList.remove('hidden');
+                displayImage.classList.add('active');
             } else {
                 displayVideo.src = item.src;
-                displayVideo.classList.remove('hidden');
+                displayVideo.classList.add('active');
                 displayVideo.play();
             }
         }
@@ -175,4 +179,3 @@
 
 </body>
 </html>
-
